@@ -70,8 +70,8 @@ function App() {
     }
 
     const entry = safeWordList[currentWordIndex]
-    const article = decomposeLigatures(entry.article.trim())
-    const word = decomposeLigatures(entry.word)
+    const article = decomposeLigatures((entry.article || '').trim())
+    const word = decomposeLigatures(entry.word || '')
     
     const fullText = article ? `${article} ${word}` : word
     const letters = fullText.split('')
