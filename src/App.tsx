@@ -7,7 +7,7 @@ import { PlanetDisplay } from '@/components/PlanetDisplay'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
-import { Plus, Trash, Gear, Sparkle } from '@phosphor-icons/react'
+import { Plus, Trash, Gear, Sparkle, Shuffle } from '@phosphor-icons/react'
 import { toast } from 'sonner'
 import { motion, AnimatePresence } from 'framer-motion'
 
@@ -38,6 +38,7 @@ function App() {
   const [cycleNumber, setCycleNumber] = useState(1)
   const [errorProgress, setErrorProgress] = useState<number | undefined>(undefined)
   const inputRef = useRef<HTMLInputElement>(null)
+  const [isGenerating, setIsGenerating] = useState(false)
 
   const safeWordList = wordList || []
   const totalPlanets = getPlanetCount()
@@ -241,6 +242,35 @@ function App() {
     }
   }
 
+  const generateRandomWords = async () => {
+    setIsGenerating(true)
+    try {
+      const promptText = `Génère exactement 10 mots français communs (pas de noms propres) avec leurs articles définis (le, la, l'). Choisis des mots variés et intéressants pour un exercice d'orthographe. Retourne le résultat sous forme de JSON valide avec une seule propriété "words" qui contient un tableau d'objets. Chaque objet doit avoir deux propriétés: "article" (string, peut être vide si pas d'article) et "word" (string, le mot principal). Format exact:
+{
+  "words": [
+    {"article": "le", "word": "château"},
+    {"article": "la", "word": "sœur"},
+    ...
+  ]
+}`
+
+      const response = await window.spark.llm(promptText, "gpt-4o-mini", true)
+      const parsed = JSON.parse(response)
+      
+      if (parsed.words && Array.isArray(parsed.words)) {
+        setWordList(parsed.words)
+        toast.success('10 mots générés avec succès !')
+      } else {
+        toast.error('Erreur lors de la génération des mots')
+      }
+    } catch (error) {
+      console.error('Error generating words:', error)
+      toast.error('Erreur lors de la génération des mots')
+    } finally {
+      setIsGenerating(false)
+    }
+  }
+
   const addWord = () => {
     const trimmedInput = newInput.trim()
     if (trimmedInput) {
@@ -340,6 +370,15 @@ function App() {
               </DialogHeader>
               
               <div className="space-y-4">
+                <Button 
+                  onClick={generateRandomWords} 
+                  disabled={isGenerating}
+                  variant="outline"
+                  className="w-full"
+                >
+                  <Shuffle size={20} className="mr-2" />
+                  {isGenerating ? 'Génération en cours...' : 'Générer 10 mots au hasard'}
+                </Button>
                 <div className="flex gap-2">
                   <Input
                     ref={inputRef}
