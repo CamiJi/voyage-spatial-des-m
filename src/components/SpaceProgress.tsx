@@ -100,7 +100,7 @@ export function SpaceProgress({ progress, totalWords, currentPlanetIndex, errorP
   const fromPlanet = planets[currentPlanetIndex] || planets[0]
   const toPlanet = planets[Math.min(currentPlanetIndex + 1, planets.length - 1)]
 
-  const angle = Math.atan2(1, 1) * (180 / Math.PI)
+  const angle = 45
 
   return (
     <div className="w-full max-w-4xl mx-auto py-8">
@@ -130,9 +130,9 @@ export function SpaceProgress({ progress, totalWords, currentPlanetIndex, errorP
                 duration: errorProgress !== undefined ? 10 : 0.8, 
                 ease: errorProgress !== undefined ? 'easeInOut' : 'easeOut' 
               }}
-              style={{ marginLeft: '-30px' }}
+              style={{ marginLeft: '-60px' }}
             >
-              <svg width="60" height="60" viewBox="0 0 60 60" style={{ transform: `rotate(${angle}deg)` }}>
+              <svg width="120" height="120" viewBox="0 0 60 60" style={{ transform: `rotate(${angle}deg)` }}>
                 <defs>
                   <linearGradient id="rocketBodyGrad" x1="0%" y1="0%" x2="0%" y2="100%">
                     <stop offset="0%" stopColor="oklch(0.98 0 0)" />
@@ -149,48 +149,48 @@ export function SpaceProgress({ progress, totalWords, currentPlanetIndex, errorP
                   </radialGradient>
                 </defs>
                 
-                <ellipse cx="30" cy="46" rx="5" ry="3" fill="oklch(0.30 0 0)" opacity="0.2" />
+                <ellipse cx="30" cy="48" rx="6" ry="3" fill="oklch(0.30 0 0)" opacity="0.2" />
                 
                 <path
-                  d="M30 8 Q25 10 25 15 L25 38 L20 42 L25 42 L30 46 L35 42 L40 42 L35 38 L35 15 Q35 10 30 8 Z"
+                  d="M30 5 Q23 7 23 15 L23 38 Q23 40 25 42 L28 44 L30 46 L32 44 L35 42 Q37 40 37 38 L37 15 Q37 7 30 5 Z"
                   fill="url(#rocketBodyGrad)"
                   stroke="oklch(0.85 0 0)"
                   strokeWidth="1"
                 />
                 
-                <circle cx="30" cy="10" r="3" fill="oklch(0.65 0.28 15)" />
-                <circle cx="30" cy="10" r="2" fill="oklch(0.60 0.25 15)" />
+                <circle cx="30" cy="8" r="4" fill="oklch(0.65 0.28 15)" />
+                <circle cx="30" cy="8" r="2.5" fill="oklch(0.60 0.25 15)" />
                 
-                <circle cx="30" cy="22" r="5.5" fill="url(#windowGrad)" />
-                <circle cx="30" cy="22" r="4" fill="oklch(0.75 0.12 220)" opacity="0.4" />
+                <circle cx="30" cy="22" r="6" fill="url(#windowGrad)" />
+                <circle cx="30" cy="22" r="4.5" fill="oklch(0.75 0.12 220)" opacity="0.4" />
                 
                 <path
-                  d="M26 42 L23 52 L25 48 L26 42 Z"
+                  d="M25 42 L22 52 L24 48 L25 42 Z"
                   fill="url(#reactorGrad)"
                   opacity="0.85"
                 />
                 <path
-                  d="M34 42 L37 52 L35 48 L34 42 Z"
+                  d="M35 42 L38 52 L36 48 L35 42 Z"
                   fill="url(#reactorGrad)"
                   opacity="0.85"
                 />
                 <path
-                  d="M30 44 L28 54 L30 51 L32 54 L30 44 Z"
+                  d="M30 44 L27 54 L29 51 L30 48 L31 51 L33 54 L30 44 Z"
                   fill="url(#reactorGrad)"
                   opacity="0.9"
                 />
                 
-                <ellipse cx="30" cy="30" rx="6" ry="1.5" fill="oklch(0.88 0 0)" opacity="0.3" />
-                <ellipse cx="30" cy="35" rx="5" ry="1.2" fill="oklch(0.88 0 0)" opacity="0.2" />
+                <ellipse cx="30" cy="30" rx="7" ry="2" fill="oklch(0.88 0 0)" opacity="0.3" />
+                <ellipse cx="30" cy="36" rx="6" ry="1.5" fill="oklch(0.88 0 0)" opacity="0.2" />
                 
                 <path
-                  d="M20 38 Q18 38 18 40 L18 44 L22 44 L20 38 Z"
+                  d="M17 35 Q15 36 15 40 Q15 43 17 44 L23 42 Q23 40 23 38 L17 35 Z"
                   fill="oklch(0.90 0 0)"
                   stroke="oklch(0.82 0 0)"
                   strokeWidth="0.8"
                 />
                 <path
-                  d="M40 38 Q42 38 42 40 L42 44 L38 44 L40 38 Z"
+                  d="M43 35 Q45 36 45 40 Q45 43 43 44 L37 42 Q37 40 37 38 L43 35 Z"
                   fill="oklch(0.90 0 0)"
                   stroke="oklch(0.82 0 0)"
                   strokeWidth="0.8"

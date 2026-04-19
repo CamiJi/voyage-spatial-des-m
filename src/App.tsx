@@ -229,14 +229,10 @@ function App() {
       toast.error('Oups ! Essaie encore')
       setShowingCorrectAnswer(true)
       
-      const currentProgress = (successCount / safeWordList.length) * 100
-      const previousProgress = Math.max(0, ((successCount - 1) / safeWordList.length) * 100)
-      
-      setErrorProgress(currentProgress)
+      setErrorProgress(0)
       
       setTimeout(() => {
         setSuccessCount(prev => Math.max(0, prev - 1))
-        setErrorProgress(previousProgress)
       }, 100)
       
       setTimeout(() => {
