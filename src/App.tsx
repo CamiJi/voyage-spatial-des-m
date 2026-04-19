@@ -237,6 +237,7 @@ function App() {
     const trimmedInput = newInput.trim()
     if (trimmedInput) {
       const words = trimmedInput.split(/\s+/)
+      let article = ''
       let word = ''
       
       if (words.length === 1) {
