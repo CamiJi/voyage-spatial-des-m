@@ -127,7 +127,7 @@ export function SpaceProgress({ progress, totalWords, currentPlanetIndex, errorP
               initial={{ left: 0 }}
               animate={{ left: `${displayProgress}%` }}
               transition={{ 
-                duration: errorProgress !== undefined ? 10 : 0.8, 
+                duration: errorProgress !== undefined ? 5 : 0.8, 
                 ease: errorProgress !== undefined ? 'easeInOut' : 'easeOut' 
               }}
               style={{ marginLeft: '-60px' }}
