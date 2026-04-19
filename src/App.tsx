@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import { useKV } from '@github/spark/hooks'
 import { SpaceBackground } from '@/components/SpaceBackground'
 import { LetterCard } from '@/components/LetterCard'
@@ -30,12 +30,12 @@ function App() {
   const [activeIndex, setActiveIndex] = useState(0)
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null)
   const [showSetup, setShowSetup] = useState(false)
-  const [newArticle, setNewArticle] = useState('')
-  const [newWord, setNewWord] = useState('')
+  const [newInput, setNewInput] = useState('')
   const [gameStarted, setGameStarted] = useState(false)
   const [successCount, setSuccessCount] = useState(0)
   const [currentPlanetIndex, setCurrentPlanetIndex] = useState(0)
   const [cycleNumber, setCycleNumber] = useState(1)
+  const inputRef = useRef<HTMLInputElement>(null)
 
   const safeWordList = wordList || []
   const totalPlanets = getPlanetCount()
@@ -234,11 +234,49 @@ function App() {
   }
 
   const addWord = () => {
-    if (newWord.trim()) {
-      setWordList(current => [...(current || []), { article: newArticle.trim(), word: newWord.trim() }])
-      setNewArticle('')
-      setNewWord('')
+    const trimmedInput = newInput.trim()
+    if (trimmedInput) {
+      const words = trimmedInput.split(/\s+/)
+      
+      let article = ''
+      let word = ''
+      
+      if (words.length === 1) {
+        word = words[0]
+      } else if (words.length === 2) {
+        article = words[0]
+        word = words[1]
+      } else if (words.length === 3) {
+        const sortedByLength = [...words].sort((a, b) => b.length - a.length)
+        const longest = sortedByLength[0]
+        const secondLongest = sortedByLength[1]
+        
+        const longestIndex = words.indexOf(longest)
+        const secondIndex = words.indexOf(secondLongest)
+        
+        if (longestIndex > secondIndex) {
+          article = words.slice(0, secondIndex).join(' ')
+          word = `${words[secondIndex]} ${words[longestIndex]}`
+        } else {
+          article = words.slice(0, longestIndex).join(' ')
+          word = words.slice(longestIndex).join(' ')
+        }
+      } else {
+        const sortedByLength = [...words].sort((a, b) => b.length - a.length)
+        const wordsToVerify = sortedByLength.slice(0, words.length - 1)
+        
+        const firstWordToVerifyIndex = words.indexOf(wordsToVerify[0])
+        article = words.slice(0, firstWordToVerifyIndex).join(' ')
+        word = words.slice(firstWordToVerifyIndex).join(' ')
+      }
+      
+      setWordList(current => [...(current || []), { article, word }])
+      setNewInput('')
       toast.success('Mot ajouté !')
+      
+      setTimeout(() => {
+        inputRef.current?.focus()
+      }, 0)
     }
   }
 
@@ -298,18 +336,17 @@ function App() {
               <div className="space-y-4">
                 <div className="flex gap-2">
                   <Input
-                    placeholder="Article (optionnel)"
-                    value={newArticle}
-                    onChange={(e) => setNewArticle(e.target.value)}
-                    onKeyDown={(e) => e.key === 'Enter' && addWord()}
-                    className="w-1/3"
-                  />
-                  <Input
-                    placeholder="Mot (ex: sœur, cœur)"
-                    value={newWord}
-                    onChange={(e) => setNewWord(e.target.value)}
-                    onKeyDown={(e) => e.key === 'Enter' && addWord()}
+                    ref={inputRef}
+                    placeholder="Mot ou phrase (ex: la sœur, le petit cœur)"
+                    value={newInput}
+                    onChange={(e) => setNewInput(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') {
+                        addWord()
+                      }
+                    }}
                     className="flex-1"
+                    autoFocus
                   />
                   <Button onClick={addWord} size="icon">
                     <Plus size={20} />
