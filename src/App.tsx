@@ -296,7 +296,7 @@ function App() {
           word = `${words[secondIndex]} ${words[longestIndex]}`
         } else {
           article = words.slice(0, longestIndex).join(' ')
-          word = words.slice(longestIndex).join(' ')
+      setCurrentPlanetIndex(0)
         }
       } else {
         const sortedByLength = [...words].sort((a, b) => b.length - a.length)
