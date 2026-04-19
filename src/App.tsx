@@ -10,6 +10,7 @@ import { Input } from '@/components/ui/input'
 import { Plus, Trash, Gear, Sparkle, Shuffle } from '@phosphor-icons/react'
 import { toast } from 'sonner'
 import { motion, AnimatePresence } from 'framer-motion'
+import { WORDS_DATABASE } from '@/lib/wordsList'
 
 interface WordEntry {
   article: string
@@ -242,27 +243,15 @@ function App() {
     }
   }
 
-  const generateRandomWords = async () => {
+  const generateRandomWords = () => {
     setIsGenerating(true)
     try {
-      const promptText = `Génère exactement 10 mots français communs (pas de noms propres) avec leurs articles définis (le, la, l'). Choisis des mots variés et intéressants pour un exercice d'orthographe. Retourne le résultat sous forme de JSON valide avec une seule propriété "words" qui contient un tableau d'objets. Chaque objet doit avoir deux propriétés: "article" (string, peut être vide si pas d'article) et "word" (string, le mot principal). Format exact:
-{
-  "words": [
-    {"article": "le", "word": "château"},
-    {"article": "la", "word": "sœur"},
-    ...
-  ]
-}`
-
-      const response = await window.spark.llm(promptText, "gpt-4o-mini", true)
-      const parsed = JSON.parse(response)
+      // Sélectionner 10 mots aléatoires pris dans la liste prégénérée
+      const shuffled = [...WORDS_DATABASE].sort(() => Math.random() - 0.5)
+      const selectedWords = shuffled.slice(0, 10)
       
-      if (parsed.words && Array.isArray(parsed.words)) {
-        setWordList(parsed.words)
-        toast.success('10 mots générés avec succès !')
-      } else {
-        toast.error('Erreur lors de la génération des mots')
-      }
+      setWordList(selectedWords)
+      toast.success('10 mots générés avec succès !')
     } catch (error) {
       console.error('Error generating words:', error)
       toast.error('Erreur lors de la génération des mots')
