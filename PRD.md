@@ -1,6 +1,6 @@
 # Planning Guide
 
-Un jeu éducatif spatial pour aider les élèves de CE1 à mémoriser l'orthographe de mots à travers une progression de difficulté avec une fusée qui voyage de la Terre vers la Lune.
+Un jeu éducatif spatial pour aider les élèves de CE1 à mémoriser l'orthographe de mots à travers une progression de difficulté avec une fusée qui voyage à travers tout le système solaire.
 
 **Experience Qualities**: 
 1. **Ludique** - L'apprentissage doit ressembler à un jeu amusant plutôt qu'à un exercice scolaire
@@ -33,19 +33,19 @@ Ce jeu combine plusieurs fonctionnalités (gestion de liste de mots, système de
 - **Progression**: Focus sur première carte vide → Saisie lettre → Passage à carte suivante → Toutes remplies → Validation automatique → Feedback (correct/incorrect)
 - **Success criteria**: La saisie est fluide, les lettres s'affichent immédiatement, la validation est claire
 
-### Système de progression spatiale (Terre → Lune)
-- **Functionality**: Une fusée avance d'une planète à l'autre à chaque bonne réponse, retourne à la Terre en cas d'erreur
-- **Purpose**: Visualiser la progression et motiver l'élève
+### Système de progression spatiale (Terre → Lune → Mars → ... → Pluton)
+- **Functionality**: Une fusée avance d'une planète à l'autre à chaque bonne réponse. Quand tous les mots sont réussis et qu'une planète est atteinte, un nouveau voyage commence vers la planète suivante avec une difficulté accrue. En cas d'erreur, le compteur de mots réussis se réinitialise et il faut recommencer depuis le début de la série.
+- **Purpose**: Visualiser la progression et motiver l'élève sur plusieurs cycles avec difficulté croissante
 - **Trigger**: Validation d'une réponse
-- **Progression**: Réponse correcte → Animation fusée avance → Nouvelle position → Mot suivant | Réponse incorrecte → Animation retour Terre → Recommence
-- **Success criteria**: La progression visuelle est claire, la fusée et les planètes sont attractives en style cartoon
+- **Progression**: Réponse correcte → Animation fusée avance → Nouvelle position → Mot suivant | Tous les mots réussis → Planète atteinte → Nouveau voyage avec +1 lettre manquante | Réponse incorrecte → Retour au début du voyage
+- **Success criteria**: La progression visuelle est claire, la fusée et les planètes sont attractives en style cartoon, le système de voyages multiples est compréhensible
 
-### Difficulté progressive
-- **Functionality**: Au début, une seule lettre manque, puis progressivement toutes les lettres sont masquées
-- **Purpose**: Adapter le niveau de difficulté à la maîtrise progressive de l'élève
-- **Trigger**: Passage au mot suivant après succès
-- **Progression**: Mot 1 (1 lettre) → Mot 2 (1-2 lettres) → ... → Dernier mot (toutes les lettres)
-- **Success criteria**: L'augmentation de difficulté est perceptible mais pas brutale
+### Difficulté progressive par voyage
+- **Functionality**: Chaque voyage entre deux planètes a un niveau de difficulté fixe. Le premier voyage (Terre → Lune) cache 1 lettre par mot. Le deuxième voyage (Lune → Mars) cache 2 lettres par mot. Et ainsi de suite jusqu'au dernier voyage. On laisse toujours au minimum une lettre visible.
+- **Purpose**: Adapter le niveau de difficulté progressivement à mesure que l'élève maîtrise les mots
+- **Trigger**: Atteindre une planète avec tous les mots réussis lance un nouveau voyage avec +1 lettre manquante
+- **Progression**: Voyage 1 (1 lettre manquante) → Planète atteinte → Voyage 2 (2 lettres manquantes) → Planète atteinte → Voyage 3 (3 lettres manquantes) → etc.
+- **Success criteria**: La difficulté augmente de manière prévisible, l'élève comprend le système de voyages
 
 ## Edge Case Handling
 
@@ -54,7 +54,9 @@ Ce jeu combine plusieurs fonctionnalités (gestion de liste de mots, système de
 - **Majuscules/minuscules**: Accepter les deux formes comme correctes
 - **Caractères accentués**: L'élève doit pouvoir saisir é, è, ê, etc. depuis le clavier
 - **Ligatures (œ, æ)**: Décomposer automatiquement les ligatures en lettres séparées (œ → o-e-u, æ → a-e) pour simplifier la saisie
-- **Fin de liste**: Afficher un écran de victoire quand tous les mots sont réussis et la Lune atteinte
+- **Mots ambigus**: Si le mot saisi correspond à un autre mot de la liste (ex: "feu" vs "jeu"), la réponse est acceptée
+- **Mots trop courts**: Si un mot a moins de lettres que le niveau de difficulté requis, on cache au maximum (longueur - 1) lettres
+- **Fin de tous les voyages**: Afficher un écran de victoire quand tous les voyages sont complétés (Pluton atteinte)
 
 ## Design Direction
 

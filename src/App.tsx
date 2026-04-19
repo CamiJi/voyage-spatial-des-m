@@ -60,11 +60,7 @@ function App() {
     const word = safeWordList[wordIndex]?.word || ''
     const wordLength = word.replace(/\s/g, '').length
     
-    const baseDifficulty = wordIndex / totalWords
-    const cycleDifficulty = Math.min((cycle - 1) * 0.15, 0.6)
-    const totalDifficulty = Math.min(baseDifficulty + cycleDifficulty, 1)
-    
-    return Math.max(1, Math.min(wordLength, Math.ceil(wordLength * totalDifficulty)))
+    return Math.max(1, Math.min(wordLength - 1, cycle))
   }, [safeWordList])
 
   const initializeWord = useCallback(() => {
@@ -382,7 +378,7 @@ function App() {
           </h1>
           <div className="flex items-center gap-2">
             <span className="text-sm text-muted-foreground">
-              Cycle {cycleNumber}
+              Voyage {cycleNumber} • {cycleNumber} lettre{cycleNumber > 1 ? 's' : ''} manquante{cycleNumber > 1 ? 's' : ''}
             </span>
             <Button variant="outline" size="icon" onClick={resetGame}>
               <Gear size={20} />
