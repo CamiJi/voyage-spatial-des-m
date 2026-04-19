@@ -45,8 +45,8 @@ function App() {
 
   const decomposeLigatures = (text: string) => {
     return text
-      .replace(/œ/g, 'oeu')
-      .replace(/Œ/g, 'OEU')
+      .replace(/œ/g, 'oe')
+      .replace(/Œ/g, 'OE')
       .replace(/æ/g, 'ae')
       .replace(/Æ/g, 'AE')
   }
