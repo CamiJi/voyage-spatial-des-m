@@ -235,12 +235,7 @@ function App() {
       setTimeout(() => {
         setShowingCorrectAnswer(false)
         setErrorProgress(undefined)
-        
-        if (currentWordIndex < safeWordList.length - 1) {
-          setCurrentWordIndex(prev => prev + 1)
-        } else {
-          setCurrentWordIndex(0)
-        }
+        setCurrentWordIndex(0)
       }, 5000)
     }
   }
