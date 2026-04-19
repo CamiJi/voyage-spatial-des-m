@@ -236,6 +236,7 @@ function App() {
         setShowingCorrectAnswer(false)
         setErrorProgress(undefined)
         setCurrentWordIndex(0)
+        setIsCorrect(null)
       }, 5000)
     }
   }
