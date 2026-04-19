@@ -36,6 +36,7 @@ function App() {
   const [successCount, setSuccessCount] = useState(0)
   const [currentPlanetIndex, setCurrentPlanetIndex] = useState(0)
   const [cycleNumber, setCycleNumber] = useState(1)
+  const [errorProgress, setErrorProgress] = useState<number | undefined>(undefined)
   const inputRef = useRef<HTMLInputElement>(null)
 
   const safeWordList = wordList || []
@@ -228,14 +229,21 @@ function App() {
       toast.error('Oups ! Essaie encore')
       setShowingCorrectAnswer(true)
       
+      const currentProgress = (successCount / safeWordList.length) * 100
+      const previousProgress = Math.max(0, ((successCount - 1) / safeWordList.length) * 100)
+      
+      setErrorProgress(currentProgress)
+      
       setTimeout(() => {
         setSuccessCount(prev => Math.max(0, prev - 1))
+        setErrorProgress(previousProgress)
       }, 100)
       
       setTimeout(() => {
         setShowingCorrectAnswer(false)
+        setErrorProgress(undefined)
         initializeWord()
-      }, 5000)
+      }, 10000)
     }
   }
 
@@ -431,6 +439,7 @@ function App() {
           progress={successCount} 
           totalWords={safeWordList.length}
           currentPlanetIndex={currentPlanetIndex}
+          errorProgress={errorProgress}
         />
 
         {hasFinished ? (
@@ -485,6 +494,7 @@ function App() {
                               isActive={letterStates.indexOf(state) === activeIndex}
                               isCorrect={isCorrect === true && state.isHidden}
                               isIncorrect={isCorrect === false}
+                              showCorrectAnswer={showingCorrectAnswer}
                             />
                           ))}
                       </div>
@@ -500,6 +510,7 @@ function App() {
                               isActive={letterStates.indexOf(state) === activeIndex}
                               isCorrect={isCorrect === true && state.isHidden}
                               isIncorrect={isCorrect === false}
+                              showCorrectAnswer={showingCorrectAnswer}
                             />
                           ))}
                       </div>
@@ -515,6 +526,7 @@ function App() {
                           isActive={letterStates.indexOf(state) === activeIndex}
                           isCorrect={isCorrect === true && state.isHidden}
                           isIncorrect={isCorrect === false}
+                          showCorrectAnswer={showingCorrectAnswer}
                         />
                       ))}
                     </div>

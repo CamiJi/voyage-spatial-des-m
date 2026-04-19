@@ -4,6 +4,7 @@ interface SpaceProgressProps {
   progress: number
   totalWords: number
   currentPlanetIndex: number
+  errorProgress?: number
 }
 
 const planets = [
@@ -93,10 +94,13 @@ const planets = [
   }
 ]
 
-export function SpaceProgress({ progress, totalWords, currentPlanetIndex }: SpaceProgressProps) {
+export function SpaceProgress({ progress, totalWords, currentPlanetIndex, errorProgress }: SpaceProgressProps) {
   const progressPercent = (progress / totalWords) * 100
+  const displayProgress = errorProgress !== undefined ? errorProgress : progressPercent
   const fromPlanet = planets[currentPlanetIndex] || planets[0]
   const toPlanet = planets[Math.min(currentPlanetIndex + 1, planets.length - 1)]
+
+  const angle = Math.atan2(1, 1) * (180 / Math.PI)
 
   return (
     <div className="w-full max-w-4xl mx-auto py-8">
@@ -121,52 +125,76 @@ export function SpaceProgress({ progress, totalWords, currentPlanetIndex }: Spac
             <motion.div
               className="absolute top-1/2 -translate-y-1/2 rocket"
               initial={{ left: 0 }}
-              animate={{ left: `${progressPercent}%` }}
-              transition={{ duration: 0.8, ease: 'easeOut' }}
+              animate={{ left: `${displayProgress}%` }}
+              transition={{ 
+                duration: errorProgress !== undefined ? 10 : 0.8, 
+                ease: errorProgress !== undefined ? 'easeInOut' : 'easeOut' 
+              }}
               style={{ marginLeft: '-30px' }}
             >
-              <svg width="60" height="60" viewBox="0 0 60 60" style={{ transform: 'rotate(-45deg)' }}>
+              <svg width="60" height="60" viewBox="0 0 60 60" style={{ transform: `rotate(${angle}deg)` }}>
                 <defs>
                   <linearGradient id="rocketBodyGrad" x1="0%" y1="0%" x2="0%" y2="100%">
                     <stop offset="0%" stopColor="oklch(0.98 0 0)" />
-                    <stop offset="100%" stopColor="oklch(0.90 0 0)" />
+                    <stop offset="100%" stopColor="oklch(0.92 0 0)" />
                   </linearGradient>
                   <linearGradient id="reactorGrad" x1="0%" y1="0%" x2="100%" y2="0%">
                     <stop offset="0%" stopColor="oklch(0.70 0.25 25)" />
                     <stop offset="50%" stopColor="oklch(0.75 0.22 35)" />
                     <stop offset="100%" stopColor="oklch(0.80 0.20 45)" />
                   </linearGradient>
+                  <radialGradient id="windowGrad" cx="50%" cy="50%">
+                    <stop offset="0%" stopColor="oklch(0.85 0.15 220)" />
+                    <stop offset="100%" stopColor="oklch(0.60 0.20 230)" />
+                  </radialGradient>
                 </defs>
                 
+                <ellipse cx="30" cy="46" rx="5" ry="3" fill="oklch(0.30 0 0)" opacity="0.2" />
+                
                 <path
-                  d="M25 10 L25 35 L20 40 L25 40 L30 45 L35 40 L40 40 L35 35 L35 10 Q30 5 25 10 Z"
+                  d="M30 8 Q25 10 25 15 L25 38 L20 42 L25 42 L30 46 L35 42 L40 42 L35 38 L35 15 Q35 10 30 8 Z"
                   fill="url(#rocketBodyGrad)"
-                  stroke="oklch(0.80 0 0)"
-                  strokeWidth="1.5"
+                  stroke="oklch(0.85 0 0)"
+                  strokeWidth="1"
                 />
                 
-                <circle cx="30" cy="20" r="4.5" fill="oklch(0.60 0.25 15)" />
-                <circle cx="30" cy="20" r="3" fill="oklch(0.55 0.22 15)" />
+                <circle cx="30" cy="10" r="3" fill="oklch(0.65 0.28 15)" />
+                <circle cx="30" cy="10" r="2" fill="oklch(0.60 0.25 15)" />
                 
-                <ellipse cx="30" cy="45" rx="4" ry="2.5" fill="oklch(0.75 0 0)" opacity="0.3" />
+                <circle cx="30" cy="22" r="5.5" fill="url(#windowGrad)" />
+                <circle cx="30" cy="22" r="4" fill="oklch(0.75 0.12 220)" opacity="0.4" />
                 
                 <path
-                  d="M26 40 L24 50 L26 48 L26 40 Z"
+                  d="M26 42 L23 52 L25 48 L26 42 Z"
+                  fill="url(#reactorGrad)"
+                  opacity="0.85"
+                />
+                <path
+                  d="M34 42 L37 52 L35 48 L34 42 Z"
+                  fill="url(#reactorGrad)"
+                  opacity="0.85"
+                />
+                <path
+                  d="M30 44 L28 54 L30 51 L32 54 L30 44 Z"
                   fill="url(#reactorGrad)"
                   opacity="0.9"
                 />
-                <path
-                  d="M34 40 L36 50 L34 48 L34 40 Z"
-                  fill="url(#reactorGrad)"
-                  opacity="0.9"
-                />
-                <path
-                  d="M30 42 L28 52 L32 52 L30 42 Z"
-                  fill="url(#reactorGrad)"
-                  opacity="0.95"
-                />
                 
-                <ellipse cx="30" cy="25" rx="6" ry="1.5" fill="oklch(0.85 0 0)" opacity="0.4" />
+                <ellipse cx="30" cy="30" rx="6" ry="1.5" fill="oklch(0.88 0 0)" opacity="0.3" />
+                <ellipse cx="30" cy="35" rx="5" ry="1.2" fill="oklch(0.88 0 0)" opacity="0.2" />
+                
+                <path
+                  d="M20 38 Q18 38 18 40 L18 44 L22 44 L20 38 Z"
+                  fill="oklch(0.90 0 0)"
+                  stroke="oklch(0.82 0 0)"
+                  strokeWidth="0.8"
+                />
+                <path
+                  d="M40 38 Q42 38 42 40 L42 44 L38 44 L40 38 Z"
+                  fill="oklch(0.90 0 0)"
+                  stroke="oklch(0.82 0 0)"
+                  strokeWidth="0.8"
+                />
               </svg>
             </motion.div>
           </div>

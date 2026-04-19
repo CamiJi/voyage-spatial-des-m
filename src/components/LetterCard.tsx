@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 interface LetterCardProps {
   letter: string
@@ -7,6 +7,7 @@ interface LetterCardProps {
   isActive: boolean
   isCorrect?: boolean
   isIncorrect?: boolean
+  showCorrectAnswer?: boolean
 }
 
 export function LetterCard({ 
@@ -15,9 +16,11 @@ export function LetterCard({
   userInput, 
   isActive, 
   isCorrect,
-  isIncorrect 
+  isIncorrect,
+  showCorrectAnswer
 }: LetterCardProps) {
   const cardRef = useRef<HTMLDivElement>(null)
+  const [showGreen, setShowGreen] = useState(false)
 
   useEffect(() => {
     if (isIncorrect && cardRef.current) {
@@ -29,19 +32,33 @@ export function LetterCard({
     }
   }, [isIncorrect])
 
-  const displayLetter = isHidden ? (userInput || '') : letter
+  useEffect(() => {
+    if (showCorrectAnswer && isHidden && isIncorrect) {
+      const timer = setTimeout(() => {
+        setShowGreen(true)
+      }, 2000)
+      return () => clearTimeout(timer)
+    } else {
+      setShowGreen(false)
+    }
+  }, [showCorrectAnswer, isHidden, isIncorrect])
+
+  const isWrongLetter = isIncorrect && isHidden && userInput && userInput !== letter
+  const displayLetter = isHidden ? (showCorrectAnswer ? letter : (userInput || '')) : letter
   const showSpace = letter === ' '
 
   if (showSpace) {
     return <div className="w-4 md:w-6" />
   }
 
-  let cardClasses = 'letter-card w-20 h-24 md:w-28 md:h-32 flex items-center justify-center rounded-xl font-bold text-5xl md:text-7xl shadow-xl border-4 transition-all duration-300'
+  let cardClasses = 'letter-card w-20 h-24 md:w-28 md:h-32 flex items-center justify-center rounded-xl font-bold text-5xl md:text-7xl shadow-xl border-4 transition-all duration-1000'
   
   if (isCorrect) {
     cardClasses += ' bg-green-500 border-green-400 scale-110'
-  } else if (isIncorrect && isHidden) {
-    cardClasses += ' bg-green-500/80 border-green-400'
+  } else if (showGreen) {
+    cardClasses += ' bg-green-500 border-green-400 scale-105'
+  } else if (isWrongLetter) {
+    cardClasses += ' bg-destructive border-destructive text-destructive-foreground'
   } else if (isHidden) {
     cardClasses += ' bg-destructive/20 border-destructive'
     if (isActive) {
