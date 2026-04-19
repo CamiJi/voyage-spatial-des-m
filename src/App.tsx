@@ -30,6 +30,7 @@ function App() {
   const [activeIndex, setActiveIndex] = useState(0)
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null)
   const [showSetup, setShowSetup] = useState(false)
+  const [showingCorrectAnswer, setShowingCorrectAnswer] = useState(false)
   const [newInput, setNewInput] = useState('')
   const [gameStarted, setGameStarted] = useState(false)
   const [successCount, setSuccessCount] = useState(0)
@@ -127,7 +128,7 @@ function App() {
   }, [safeWordList.length])
 
   const handleKeyPress = useCallback((e: KeyboardEvent) => {
-    if (!gameStarted || isCorrect !== null || letterStates.length === 0) return
+    if (!gameStarted || isCorrect !== null || letterStates.length === 0 || showingCorrectAnswer) return
 
     const key = e.key
 
@@ -225,11 +226,16 @@ function App() {
       }, 1500)
     } else {
       toast.error('Oups ! Essaie encore')
-      setSuccessCount(0)
+      setShowingCorrectAnswer(true)
       
       setTimeout(() => {
+        setSuccessCount(prev => Math.max(0, prev - 1))
+      }, 100)
+      
+      setTimeout(() => {
+        setShowingCorrectAnswer(false)
         initializeWord()
-      }, 1000)
+      }, 5000)
     }
   }
 

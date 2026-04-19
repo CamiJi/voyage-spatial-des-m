@@ -40,6 +40,8 @@ export function LetterCard({
   
   if (isCorrect) {
     cardClasses += ' bg-green-500 border-green-400 scale-110'
+  } else if (isIncorrect && isHidden) {
+    cardClasses += ' bg-green-500/80 border-green-400'
   } else if (isHidden) {
     cardClasses += ' bg-destructive/20 border-destructive'
     if (isActive) {
