@@ -100,7 +100,7 @@ export function SpaceProgress({ progress, totalWords, currentPlanetIndex, errorP
   const fromPlanet = planets[currentPlanetIndex] || planets[0]
   const toPlanet = planets[Math.min(currentPlanetIndex + 1, planets.length - 1)]
 
-  const angle = 45
+  const angle = 0
 
   return (
     <div className="w-full max-w-4xl mx-auto py-8">
