@@ -40,6 +40,14 @@ function App() {
   const safeWordList = wordList || []
   const totalPlanets = getPlanetCount()
 
+  const decomposeLigatures = (text: string) => {
+    return text
+      .replace(/œ/g, 'oeu')
+      .replace(/Œ/g, 'OEU')
+      .replace(/æ/g, 'ae')
+      .replace(/Æ/g, 'AE')
+  }
+
   const normalizeText = (text: string) => {
     return text
       .toLowerCase()
@@ -66,8 +74,8 @@ function App() {
     }
 
     const entry = safeWordList[currentWordIndex]
-    const article = entry.article.trim()
-    const word = entry.word
+    const article = decomposeLigatures(entry.article.trim())
+    const word = decomposeLigatures(entry.word)
     
     const fullText = article ? `${article} ${word}` : word
     const letters = fullText.split('')

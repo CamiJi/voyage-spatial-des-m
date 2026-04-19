@@ -52,7 +52,8 @@ Ce jeu combine plusieurs fonctionnalités (gestion de liste de mots, système de
 - **Liste vide**: Afficher un message invitant l'adulte à configurer des mots avant de commencer
 - **Saisie de caractères spéciaux**: Ignorer les touches non-alphabétiques (sauf backspace pour correction)
 - **Majuscules/minuscules**: Accepter les deux formes comme correctes
-- **Caractères accentués**: L'élève doit pouvoir saisir é, è, ê, œ, etc. depuis le clavier
+- **Caractères accentués**: L'élève doit pouvoir saisir é, è, ê, etc. depuis le clavier
+- **Ligatures (œ, æ)**: Décomposer automatiquement les ligatures en lettres séparées (œ → o-e-u, æ → a-e) pour simplifier la saisie
 - **Fin de liste**: Afficher un écran de victoire quand tous les mots sont réussis et la Lune atteinte
 
 ## Design Direction
