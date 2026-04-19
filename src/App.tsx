@@ -239,6 +239,7 @@ function App() {
         setErrorProgress(undefined)
         setCurrentWordIndex(0)
         setIsCorrect(null)
+        initializeWord()
       }, 5000)
     }
   }
