@@ -237,7 +237,6 @@ function App() {
     const trimmedInput = newInput.trim()
     if (trimmedInput) {
       const words = trimmedInput.split(/\s+/)
-      let article = ''
       let word = ''
       
       if (words.length === 1) {
@@ -272,7 +271,6 @@ function App() {
       setWordList(current => [...(current || []), { article, word }])
       setNewInput('')
       toast.success('Mot ajouté !')
-      
       setTimeout(() => {
         inputRef.current?.focus()
       }, 0)
