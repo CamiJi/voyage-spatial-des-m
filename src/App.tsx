@@ -230,10 +230,7 @@ function App() {
       setShowingCorrectAnswer(true)
       
       setErrorProgress(0)
-      
-      setTimeout(() => {
-        setSuccessCount(prev => Math.max(0, prev - 1))
-      }, 100)
+      setSuccessCount(0)
       
       setTimeout(() => {
         setShowingCorrectAnswer(false)
