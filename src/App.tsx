@@ -195,7 +195,16 @@ function App() {
       .map(s => s.letter)
       .join('')
     
-    const isAnswerCorrect = normalizeText(userWord) === normalizeText(correctWord)
+    const normalizedUserWord = normalizeText(userWord)
+    const normalizedCorrectWord = normalizeText(correctWord)
+    
+    const isExactMatch = normalizedUserWord === normalizedCorrectWord
+    
+    const isInWordList = safeWordList.some(entry => 
+      normalizeText(decomposeLigatures(entry.word)) === normalizedUserWord
+    )
+    
+    const isAnswerCorrect = isExactMatch || isInWordList
     
     setIsCorrect(isAnswerCorrect)
     
