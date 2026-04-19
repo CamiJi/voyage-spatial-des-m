@@ -369,7 +369,7 @@ function App() {
         <div className="flex justify-between items-center mb-4">
           <h1 className="text-xl md:text-3xl font-bold text-primary flex items-center gap-2">
             <Sparkle size={32} weight="fill" />
-            <span className="hidden sm:inline">Voyage Spatial</span>
+            <span className="hidden sm:inline">Voyage Spatial dans la Galaxie des Mots</span>
           </h1>
           <div className="flex items-center gap-2">
             <span className="text-sm text-muted-foreground">
