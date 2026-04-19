@@ -422,19 +422,62 @@ function App() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
                 transition={{ duration: 0.3 }}
-                className="flex flex-wrap justify-center gap-3 mb-8 max-w-4xl"
+                className="w-full px-2 mb-8"
               >
-                {letterStates.map((state, index) => (
-                  <LetterCard
-                    key={index}
-                    letter={state.letter}
-                    isHidden={state.isHidden}
-                    userInput={state.userInput}
-                    isActive={index === activeIndex}
-                    isCorrect={isCorrect === true && state.isHidden}
-                    isIncorrect={isCorrect === false}
-                  />
-                ))}
+                <div className="flex flex-col items-center gap-4">
+                  {letterStates.some(s => s.isFromArticle) ? (
+                    <>
+                      <div className="flex flex-wrap justify-center gap-2 md:gap-3">
+                        {letterStates
+                          .filter((state, idx) => state.isFromArticle || letterStates[idx - 1]?.letter === ' ')
+                          .slice(0, letterStates.findIndex(s => !s.isFromArticle && s.letter !== ' '))
+                          .filter(s => s.letter !== ' ')
+                          .map((state, index) => (
+                            <LetterCard
+                              key={`article-${index}`}
+                              letter={state.letter}
+                              isHidden={state.isHidden}
+                              userInput={state.userInput}
+                              isActive={letterStates.indexOf(state) === activeIndex}
+                              isCorrect={isCorrect === true && state.isHidden}
+                              isIncorrect={isCorrect === false}
+                            />
+                          ))}
+                      </div>
+                      <div className="flex flex-wrap justify-center gap-2 md:gap-3 max-w-[95vw]">
+                        {letterStates
+                          .filter(state => !state.isFromArticle && state.letter !== ' ')
+                          .map((state, index) => (
+                            <LetterCard
+                              key={`word-${index}`}
+                              letter={state.letter}
+                              isHidden={state.isHidden}
+                              userInput={state.userInput}
+                              isActive={letterStates.indexOf(state) === activeIndex}
+                              isCorrect={isCorrect === true && state.isHidden}
+                              isIncorrect={isCorrect === false}
+                            />
+                          ))}
+                      </div>
+                    </>
+                  ) : (
+                    <div className="flex flex-wrap justify-center gap-2 md:gap-3 max-w-[95vw]">
+                      {letterStates
+                        .filter(state => state.letter !== ' ')
+                        .map((state, index) => (
+                          <LetterCard
+                            key={index}
+                            letter={state.letter}
+                            isHidden={state.isHidden}
+                            userInput={state.userInput}
+                            isActive={letterStates.indexOf(state) === activeIndex}
+                            isCorrect={isCorrect === true && state.isHidden}
+                            isIncorrect={isCorrect === false}
+                          />
+                        ))}
+                    </div>
+                  )}
+                </div>
               </motion.div>
             </AnimatePresence>
 
