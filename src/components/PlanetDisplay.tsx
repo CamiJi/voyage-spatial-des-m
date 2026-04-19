@@ -8,7 +8,29 @@ const planets = [
   { 
     name: 'Terre', 
     colors: ['oklch(0.45 0.15 200)', 'oklch(0.55 0.18 160)', 'oklch(0.60 0.20 140)'],
-    emoji: '🌍'
+    emoji: (
+      <svg width="64" height="64" viewBox="0 0 60 60" style={{ display: 'inline-block' }}>
+        <defs>
+          <radialGradient id="earthGlowLarge" cx="40%" cy="40%">
+            <stop offset="0%" stopColor="oklch(0.60 0.18 220)" />
+            <stop offset="100%" stopColor="oklch(0.35 0.20 230)" />
+          </radialGradient>
+        </defs>
+        <circle cx="30" cy="30" r="28" fill="url(#earthGlowLarge)" />
+        <path d="M 12 18 Q 8 22 8 28 Q 8 32 10 34 L 14 38 Q 16 40 18 38 L 22 34 Q 24 32 24 28 L 24 24 Q 24 20 20 18 Z" 
+          fill="oklch(0.45 0.15 140)" opacity="0.9" />
+        <path d="M 35 12 Q 32 10 28 12 L 24 16 Q 22 18 24 22 L 28 26 Q 30 28 34 26 L 40 22 Q 42 20 42 16 Q 42 12 38 10 Z" 
+          fill="oklch(0.48 0.14 135)" opacity="0.85" />
+        <path d="M 48 24 Q 46 22 44 24 L 40 28 Q 38 30 38 34 L 40 40 Q 42 44 46 44 Q 50 44 52 40 L 52 32 Q 52 26 48 24 Z" 
+          fill="oklch(0.46 0.16 138)" opacity="0.88" />
+        <path d="M 18 44 Q 16 42 14 44 L 12 48 Q 10 50 12 52 L 18 54 Q 22 54 24 50 L 26 46 Q 26 42 22 42 Z" 
+          fill="oklch(0.50 0.13 142)" opacity="0.8" />
+        <path d="M 30 42 Q 28 40 26 42 L 24 46 Q 22 50 26 52 L 34 54 Q 38 54 40 50 L 38 44 Q 36 40 32 40 Z" 
+          fill="oklch(0.47 0.15 136)" opacity="0.87" />
+        <circle cx="30" cy="30" r="28" fill="none" stroke="oklch(0.50 0.10 200)" strokeWidth="1" opacity="0.3" />
+        <ellipse cx="20" cy="20" rx="3" ry="2" fill="oklch(0.95 0 0)" opacity="0.4" />
+      </svg>
+    )
   },
   { 
     name: 'Lune', 
