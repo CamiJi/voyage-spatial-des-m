@@ -34,7 +34,7 @@ jobs:
       - name: Build
         run: npm run build
         env:
-          VITE_BASE_PATH: /spark-template/
+          VITE_BASE_PATH: /voyage-spatial-des-m/
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
