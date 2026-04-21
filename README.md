@@ -1,7 +1,9 @@
 # 🚀 Voyage Spatial dans la Galaxie des Mots
 
-![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/VOTRE-USERNAME/VOTRE-REPO/deploy.yml?label=deployment)
-![GitHub License](https://img.shields.io/github/license/VOTRE-USERNAME/VOTRE-REPO)
+![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/CamiJi/voyage-spatial-des-m/deploy.yml?label=deployment)
+![GitHub License](https://img.shields.io/github/license/CamiJi/voyage-spatial-des-m)
+
+🌐 **[Tester l'application en ligne](https://camiji.github.io/voyage-spatial-des-m/)**
 
 Un jeu éducatif spatial pour les élèves de CE1 qui révise l'orthographe des mots en complétant des lettres manquantes.
 
@@ -61,7 +63,7 @@ Ce script vérifie que tout est configuré correctement avant le déploiement.
 
 Une fois déployé, votre site sera accessible sur :
 ```
-https://votre-username.github.io/votre-repo/
+https://camiji.github.io/voyage-spatial-des-m/
 ```
 
 ## 🛠️ Développement local
